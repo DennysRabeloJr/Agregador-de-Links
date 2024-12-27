@@ -5,6 +5,7 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  Linking,
   FlatList,
   Modal,
 } from "react-native"
@@ -58,6 +59,17 @@ export default function Index() {
       { style: "cancel", text: "Não" },
       { text: "Sim", onPress: linkRemove },
     ])
+  }
+
+  // Abrindo link
+  async function handleOpen() {
+    try {
+      await Linking.openURL(link.url)
+      setShowModal(false)
+    } catch (error) {
+      Alert.alert("Link", "Não foi possível abrir o Link")
+      console.log(error)
+    }
   }
 
   useFocusEffect(
@@ -114,7 +126,7 @@ export default function Index() {
                 variant="secondary"
                 onPress={handleRemove}
               />
-              <Option name="Abrir" icon="language" />
+              <Option name="Abrir" icon="language" onPress={handleOpen} />
             </View>
           </View>
         </View>
