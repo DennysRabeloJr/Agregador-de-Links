@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity, Alert } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
 import { router } from "expo-router"
 
@@ -15,7 +15,20 @@ export default function Add() {
   const [url, setUrl] = useState("")
 
   function handleAdd() {
-    console.log({ name, url })
+    if (!category) {
+      return Alert.alert("Categoria", "Selecione a categoria.")
+    }
+
+    //trim() impede do usuário inserir apenas espaços no campo.
+    if (!name.trim()) {
+      return Alert.alert("Nome", "Informe o nome.")
+    }
+
+    if (!url.trim()) {
+      return Alert.alert("Url", "Informe a URL.")
+    }
+
+    console.log({ category, name, url })
   }
 
   return (
