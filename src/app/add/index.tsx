@@ -5,6 +5,8 @@ import { router } from "expo-router"
 
 import { styles } from "./styles"
 import { colors } from "@/styles/colors"
+import { linkStorage } from "@/storage/link-storage"
+
 import { Categories } from "@/components/catergories"
 import { Input } from "@/components/input"
 import { Button } from "@/components/button"
@@ -14,21 +16,34 @@ export default function Add() {
   const [name, setName] = useState("")
   const [url, setUrl] = useState("")
 
-  function handleAdd() {
-    if (!category) {
-      return Alert.alert("Categoria", "Selecione a categoria.")
-    }
+  async function handleAdd() {
+    try {
+      if (!category) {
+        return Alert.alert("Categoria", "Selecione a categoria.")
+      }
 
-    //trim() impede do usuário inserir apenas espaços no campo.
-    if (!name.trim()) {
-      return Alert.alert("Nome", "Informe o nome.")
-    }
+      //trim() impede do usuário inserir apenas espaços no campo.
+      if (!name.trim()) {
+        return Alert.alert("Nome", "Informe o nome.")
+      }
 
-    if (!url.trim()) {
-      return Alert.alert("Url", "Informe a URL.")
-    }
+      if (!url.trim()) {
+        return Alert.alert("Url", "Informe a URL.")
+      }
+      await linkStorage.save({
+        id: new Date().getTime().toString(),
+        name,
+        url,
+        category,
+      })
 
-    console.log({ category, name, url })
+      Alert.alert("Sucesso", "Link adicionado!", [
+        { text: "OK", onPress: () => router.back() },
+      ])
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível salvar o link")
+      console.log(error)
+    }
   }
 
   return (
@@ -43,8 +58,13 @@ export default function Add() {
       <Categories onChange={setCategory} selected={category} />
 
       <View style={styles.form}>
-        <Input placeholder="Nome" onChangeText={setName} />
-        <Input placeholder="Url" onChangeText={setUrl} />
+        <Input placeholder="Nome" onChangeText={setName} autoCorrect={false} />
+        <Input
+          placeholder="Url"
+          onChangeText={setUrl}
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
         <Button title="Adicionar" onPress={handleAdd} />
       </View>
     </View>

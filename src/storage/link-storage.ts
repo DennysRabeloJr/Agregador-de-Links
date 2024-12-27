@@ -2,7 +2,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 const LINKS_STORAGE_KEY = "links-storage"
 
-type LinkStorage = {
+export type LinkStorage = {
   id: string
   name: string
   url: string
@@ -22,10 +22,9 @@ async function save(newLink: LinkStorage) {
     const update = JSON.stringify([...storage, newLink])
 
     await AsyncStorage.setItem(LINKS_STORAGE_KEY, update)
-
   } catch (error) {
     throw error
   }
 }
 
-export const LinkStorage = {get, save}
+export const linkStorage = { get, save }
