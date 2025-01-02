@@ -33,7 +33,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-O agregador de links serve para salvar seus sites favoritos de acordo com cada categoria.
+Um aplicativo móvel minimalista para organizar e armazenar diferentes tipos de links de conteúdo.
 
 - [Acesse o projeto finalizado](https://github.com/DennysRabeloJr/Agregador-de-Links)
 
